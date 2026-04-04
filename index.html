@@ -1,0 +1,1901 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Wolves Pádel Club</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --gold: #F0B429;
+      --gold-dark: #C8960A;
+      --gold-light: #FFD166;
+      --black: #0A0A0A;
+      --black-mid: #111111;
+      --black-soft: #1A1A1A;
+      --gray: #2A2A2A;
+      --gray-light: #444444;
+      --white: #F5F5F0;
+      --white-dim: rgba(245,245,240,0.7);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Barlow', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE TEXTURE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.4;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 3rem;
+      background: linear-gradient(to bottom, rgba(10,10,10,0.98), transparent);
+      backdrop-filter: blur(4px);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      text-decoration: none;
+    }
+
+    .nav-logo img {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+    }
+
+    .nav-logo-placeholder {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.2rem;
+      color: var(--black);
+    }
+
+    .nav-wordmark {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem;
+      letter-spacing: 0.12em;
+      color: var(--white);
+    }
+
+    .nav-wordmark span { color: var(--gold); }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--white-dim);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--gold); }
+
+    .nav-instagram {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(240,180,41,0.08);
+      border: 1px solid rgba(240,180,41,0.2);
+      padding: 0.4rem 0.9rem;
+      border-radius: 2px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold) !important;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .nav-instagram:hover {
+      background: var(--gold);
+      color: var(--black) !important;
+    }
+
+    .instagram-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      border: 1px solid rgba(240,180,41,0.3);
+      color: var(--gold);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 0.9rem 1.8rem;
+      transition: all 0.2s;
+      margin-top: 1rem;
+    }
+
+    .instagram-btn:hover {
+      background: var(--gold);
+      color: var(--black);
+      border-color: var(--gold);
+    }
+
+    .instagram-btn svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+    }
+
+    .footer-socials {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .footer-social-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      border: 1px solid rgba(240,180,41,0.2);
+      color: var(--gold);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 0.6rem 1.2rem;
+      transition: all 0.2s;
+    }
+
+    .footer-social-link:hover {
+      background: var(--gold);
+      color: var(--black);
+    }
+
+    .footer-social-link svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+      padding: 6rem 2rem 4rem;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 40%, rgba(240,180,41,0.08) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 80% 20%, rgba(240,180,41,0.04) 0%, transparent 60%),
+        var(--black);
+    }
+
+    .hero-lines {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(240,180,41,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(240,180,41,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    .hero-badge {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid rgba(240,180,41,0.3);
+      padding: 0.4rem 1.2rem;
+      border-radius: 2px;
+      margin-bottom: 2rem;
+      position: relative;
+      animation: fadeUp 0.8s ease both;
+    }
+
+    .hero-shield {
+      width: 200px;
+      height: 200px;
+      margin: 0 auto 2rem;
+      position: relative;
+      animation: fadeUp 0.9s ease 0.1s both;
+    }
+
+    .hero-shield img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 0 40px rgba(240,180,41,0.3));
+    }
+
+    /* Placeholder shield SVG */
+    .shield-placeholder {
+      width: 200px;
+      height: 200px;
+      margin: 0 auto 2rem;
+      border-radius: 50%;
+      background: radial-gradient(circle, #1a1a1a, #0a0a0a);
+      border: 2px solid var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+      color: var(--gold);
+      letter-spacing: 0.1em;
+      box-shadow: 0 0 60px rgba(240,180,41,0.2);
+      animation: fadeUp 0.9s ease 0.1s both;
+      position: relative;
+    }
+
+    .shield-placeholder::after {
+      content: '';
+      position: absolute;
+      inset: -8px;
+      border-radius: 50%;
+      border: 1px solid rgba(240,180,41,0.15);
+    }
+
+    h1.hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(5rem, 15vw, 12rem);
+      letter-spacing: 0.05em;
+      line-height: 0.9;
+      color: var(--white);
+      position: relative;
+      animation: fadeUp 1s ease 0.2s both;
+    }
+
+    h1.hero-title span {
+      color: var(--gold);
+      display: block;
+    }
+
+    .hero-subtitle {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1rem;
+      font-weight: 300;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--white-dim);
+      margin-top: 1rem;
+      animation: fadeUp 1s ease 0.35s both;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 4rem;
+      margin-top: 4rem;
+      animation: fadeUp 1s ease 0.5s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3rem;
+      color: var(--gold);
+      line-height: 1;
+    }
+
+    .hero-stat-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--white-dim);
+      margin-top: 0.3rem;
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      animation: fadeUp 1s ease 0.7s both;
+    }
+
+    .hero-scroll span {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--white-dim);
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+      animation: scrollPulse 2s ease infinite;
+    }
+
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 1; transform: scaleY(1); }
+      50% { opacity: 0.3; transform: scaleY(0.6); }
+    }
+
+    /* ── SECTIONS SHARED ── */
+    section {
+      padding: 7rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      letter-spacing: 0.04em;
+      line-height: 1;
+      color: var(--white);
+      margin-bottom: 2rem;
+    }
+
+    .section-divider {
+      width: 60px;
+      height: 3px;
+      background: var(--gold);
+      margin-bottom: 3rem;
+    }
+
+    /* ── HISTORIA ── */
+    #historia {
+      max-width: 1200px;
+    }
+
+    .historia-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .historia-text p {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: var(--white-dim);
+      margin-bottom: 1.5rem;
+      font-weight: 300;
+    }
+
+    .historia-text p strong {
+      color: var(--gold);
+      font-weight: 600;
+    }
+
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 90px 24px 1fr;
+      gap: 0 0.8rem;
+      position: relative;
+      padding-bottom: 2.5rem;
+      align-items: start;
+    }
+
+    .timeline-item:not(:last-child)::before {
+      content: '';
+      position: absolute;
+      left: 97px;
+      top: 20px;
+      bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--gold), rgba(240,180,41,0.1));
+    }
+
+    .timeline-year {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem;
+      color: var(--gold);
+      letter-spacing: 0.05em;
+      padding-top: 0.1rem;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .timeline-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--gold);
+      border: 3px solid var(--black);
+      box-shadow: 0 0 12px rgba(240,180,41,0.5);
+      margin-top: 4px;
+      justify-self: center;
+    }
+
+    .timeline-content h3 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: var(--white);
+      margin-bottom: 0.3rem;
+    }
+
+    .timeline-content p {
+      font-size: 0.9rem;
+      color: var(--white-dim);
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    /* ── LOGROS / CAROUSEL ── */
+    #logros {
+      background: linear-gradient(to bottom, var(--black), var(--black-soft), var(--black));
+      max-width: 100%;
+      padding: 7rem 0;
+    }
+
+    #logros .inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .trophy-banner {
+      background: linear-gradient(135deg, var(--gold-dark), var(--gold), var(--gold-light));
+      padding: 2.5rem 3rem;
+      margin-bottom: 4rem;
+      position: relative;
+      overflow: hidden;
+      clip-path: polygon(0 0, calc(100% - 30px) 0, 100% 30px, 100% 100%, 30px 100%, 0 calc(100% - 30px));
+    }
+
+    .trophy-banner::before {
+      content: '🏆';
+      position: absolute;
+      right: 2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 5rem;
+      opacity: 0.2;
+    }
+
+    .trophy-banner h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.5rem;
+      color: var(--black);
+      letter-spacing: 0.05em;
+      line-height: 1;
+    }
+
+    .trophy-banner p {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1rem;
+      color: rgba(10,10,10,0.7);
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      margin-top: 0.5rem;
+    }
+
+    /* Carousel */
+    .carousel-wrapper {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .carousel-track {
+      display: flex;
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .carousel-slide {
+      min-width: 100%;
+      aspect-ratio: 16/9;
+      position: relative;
+      background: var(--gray);
+      overflow: hidden;
+    }
+
+    .carousel-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .carousel-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--black-soft), var(--gray));
+      border: 1px dashed rgba(240,180,41,0.2);
+      gap: 1rem;
+    }
+
+    .carousel-placeholder .icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: 2px dashed rgba(240,180,41,0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+
+    .carousel-placeholder p {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(240,180,41,0.5);
+    }
+
+    .carousel-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 2rem;
+      background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1rem;
+      letter-spacing: 0.1em;
+      color: var(--white);
+    }
+
+    .carousel-controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 1.5rem;
+    }
+
+    .carousel-btns {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .carousel-btn {
+      width: 44px;
+      height: 44px;
+      border: 1px solid rgba(240,180,41,0.3);
+      background: transparent;
+      color: var(--gold);
+      cursor: pointer;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .carousel-btn:hover {
+      background: var(--gold);
+      color: var(--black);
+      border-color: var(--gold);
+    }
+
+    .carousel-dots {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .carousel-dot {
+      width: 20px;
+      height: 3px;
+      background: var(--gray-light);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .carousel-dot.active {
+      background: var(--gold);
+      width: 40px;
+    }
+
+    /* ── FLOATING HYMN PLAYER ── */
+    .hymn-player {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 2000;
+      width: 300px;
+      background: var(--black-mid);
+      border: 1px solid rgba(240,180,41,0.3);
+      box-shadow: 0 8px 40px rgba(0,0,0,0.6), 0 0 0 1px rgba(240,180,41,0.05);
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .hymn-player.minimized {
+      width: 200px;
+    }
+
+    .hymn-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 1rem;
+      background: rgba(240,180,41,0.06);
+      border-bottom: 1px solid rgba(240,180,41,0.15);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .hymn-header:hover {
+      background: rgba(240,180,41,0.1);
+    }
+
+    .hymn-header-left {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .hymn-note {
+      font-size: 1rem;
+      line-height: 1;
+    }
+
+    .hymn-header-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .hymn-header-sub {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: var(--white-dim);
+      margin-top: 0.1rem;
+    }
+
+    .hymn-toggle {
+      background: none;
+      border: none;
+      color: var(--white-dim);
+      cursor: pointer;
+      font-size: 0.9rem;
+      padding: 0.2rem;
+      transition: color 0.2s, transform 0.3s;
+      line-height: 1;
+    }
+
+    .hymn-toggle:hover { color: var(--gold); }
+    .hymn-player.minimized .hymn-toggle { transform: rotate(180deg); }
+
+    .hymn-body {
+      padding: 1rem;
+      overflow: hidden;
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      max-height: 120px;
+    }
+
+    .hymn-player.minimized .hymn-body {
+      max-height: 0;
+      padding: 0 1rem;
+    }
+
+    .hymn-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .play-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--gold);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.2s;
+    }
+
+    .play-btn:hover {
+      background: var(--gold-light);
+      transform: scale(1.08);
+    }
+
+    .play-btn svg {
+      width: 16px;
+      height: 16px;
+      fill: var(--black);
+      margin-left: 2px;
+    }
+
+    .play-btn svg.pause-icon { margin-left: 0; }
+
+    .hymn-info { flex: 1; min-width: 0; }
+
+    .hymn-track-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--white);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 0.5rem;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 3px;
+      background: var(--gray);
+      position: relative;
+      cursor: pointer;
+      border-radius: 2px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--gold);
+      transition: width 0.1s linear;
+      border-radius: 2px;
+    }
+
+    .hymn-time {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.7rem;
+      color: var(--white-dim);
+      margin-top: 0.35rem;
+      letter-spacing: 0.05em;
+    }
+
+    audio { display: none; }
+
+    /* ── EQUIPO ── */
+    #equipo {
+      max-width: 1200px;
+    }
+
+    .staff-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-bottom: 4rem;
+    }
+
+    .staff-card {
+      background: var(--black-soft);
+      border: 1px solid rgba(240,180,41,0.15);
+      padding: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .staff-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px;
+      height: 100%;
+      background: var(--gold);
+    }
+
+    .staff-photo {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .staff-photo-placeholder {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: var(--gray);
+      border: 2px solid rgba(240,180,41,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      color: var(--gold);
+      flex-shrink: 0;
+    }
+
+    .staff-info h3 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 0.03em;
+    }
+
+    .staff-role {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-top: 0.2rem;
+    }
+
+    .players-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 1px;
+      background: rgba(240,180,41,0.06);
+      border: 1px solid rgba(240,180,41,0.06);
+    }
+
+    .player-card {
+      background: var(--black-soft);
+      padding: 1.2rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      transition: background 0.2s;
+      cursor: default;
+    }
+
+    .player-card:hover {
+      background: var(--black-mid);
+    }
+
+    .player-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+      color: rgba(240,180,41,0.25);
+      min-width: 28px;
+      line-height: 1;
+    }
+
+    .player-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--white);
+      letter-spacing: 0.02em;
+      line-height: 1.2;
+    }
+
+    /* ── PATROCINADORES ── */
+    #patrocinadores {
+      max-width: 1200px;
+    }
+
+    .sponsor-main {
+      background: linear-gradient(135deg, rgba(240,180,41,0.08), rgba(240,180,41,0.02));
+      border: 1px solid rgba(240,180,41,0.2);
+      padding: 3rem;
+      text-align: center;
+      margin-bottom: 3rem;
+      position: relative;
+    }
+
+    .sponsor-main::before {
+      content: 'PATROCINADOR PRINCIPAL';
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--gold);
+      color: var(--black);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      padding: 0.25rem 1rem;
+    }
+
+    .sponsor-main-logo {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      overflow: hidden;
+    }
+
+    .sponsor-main-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 1rem;
+    }
+
+    .sponsor-main-logo-placeholder {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.3rem;
+      color: #222;
+      letter-spacing: 0.05em;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    .sponsor-main h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.5rem;
+      color: var(--gold);
+      letter-spacing: 0.05em;
+    }
+
+    .sponsor-main p {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--white-dim);
+      margin-top: 0.3rem;
+    }
+
+    .sponsors-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: rgba(255,255,255,0.04);
+    }
+
+    .sponsor-card {
+      background: var(--black-soft);
+      padding: 2rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.8rem;
+      text-align: center;
+      transition: background 0.2s;
+      min-height: 140px;
+    }
+
+    .sponsor-card:hover { background: var(--gray); }
+
+    .sponsor-card-logo {
+      width: 80px;
+      height: 60px;
+      object-fit: contain;
+      filter: brightness(0) invert(1);
+      opacity: 0.6;
+      transition: opacity 0.2s;
+    }
+
+    .sponsor-card:hover .sponsor-card-logo { opacity: 1; }
+
+    .sponsor-card-logo-placeholder {
+      width: 80px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: rgba(240,180,41,0.5);
+      letter-spacing: 0.05em;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    .sponsor-card p {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--white-dim);
+    }
+
+    /* ── CLUB ASOCIADO ── */
+    #club {
+      max-width: 1200px;
+    }
+
+    .club-card {
+      background: var(--black-soft);
+      border: 1px solid rgba(240,180,41,0.12);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      overflow: hidden;
+    }
+
+    .club-info {
+      padding: 3rem;
+    }
+
+    .club-info h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.2rem;
+      color: var(--white);
+      letter-spacing: 0.04em;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+
+    .club-info h3 span { color: var(--gold); }
+
+    .club-info p {
+      font-size: 0.95rem;
+      color: var(--white-dim);
+      line-height: 1.7;
+      font-weight: 300;
+      margin-bottom: 2rem;
+    }
+
+    .club-address {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.8rem;
+      background: var(--black);
+      border: 1px solid rgba(240,180,41,0.1);
+      padding: 1.2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .club-address-icon {
+      font-size: 1.2rem;
+      margin-top: 0.1rem;
+      flex-shrink: 0;
+    }
+
+    .club-address p {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.95rem;
+      color: var(--white);
+      margin: 0;
+      letter-spacing: 0.03em;
+    }
+
+    .club-map-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: var(--gold);
+      color: var(--black);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 0.9rem 1.8rem;
+      transition: all 0.2s;
+    }
+
+    .club-map-btn:hover {
+      background: var(--gold-light);
+      transform: translateY(-2px);
+    }
+
+    .club-map {
+      background: var(--gray);
+      min-height: 350px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .club-map iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      filter: grayscale(1) invert(1) contrast(0.85);
+    }
+
+    .club-map-placeholder {
+      width: 100%;
+      height: 100%;
+      min-height: 350px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #111, #1a1a1a);
+      gap: 1rem;
+    }
+
+    .club-map-placeholder .map-icon {
+      font-size: 3rem;
+    }
+
+    .club-map-placeholder p {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(240,180,41,0.4);
+    }
+
+    /* ── SNP SECTION ── */
+    #snp {
+      max-width: 1200px;
+    }
+
+    .snp-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .snp-text p {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--white-dim);
+      margin-bottom: 1.5rem;
+      font-weight: 300;
+    }
+
+    .snp-text p strong { color: var(--gold); font-weight: 600; }
+
+    .snp-pyramid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .snp-tier {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: var(--black-soft);
+      border: 1px solid rgba(240,180,41,0.08);
+      padding: 0.9rem 1.2rem;
+      transition: all 0.2s;
+      position: relative;
+    }
+
+    .snp-tier.active {
+      border-color: var(--gold);
+      background: rgba(240,180,41,0.06);
+      flex-wrap: wrap;
+    }
+
+    .snp-wolves-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--gold);
+      color: var(--black);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.6rem;
+      margin-left: auto;
+    }
+
+    .snp-tier-icon {
+      font-size: 1.3rem;
+      width: 30px;
+      text-align: center;
+    }
+
+    .snp-tier-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.2rem;
+      letter-spacing: 0.06em;
+      color: var(--white);
+      flex: 1;
+    }
+
+    .snp-tier.active .snp-tier-name { color: var(--gold); }
+
+    .snp-tier-sub {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      color: var(--white-dim);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--black-mid);
+      border-top: 1px solid rgba(240,180,41,0.1);
+      padding: 4rem 2rem 2rem;
+      text-align: center;
+    }
+
+    .footer-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3rem;
+      letter-spacing: 0.1em;
+      color: var(--white);
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-logo span { color: var(--gold); }
+
+    .footer-tagline {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--white-dim);
+      margin-bottom: 2.5rem;
+    }
+
+    .footer-divider {
+      width: 40px;
+      height: 2px;
+      background: var(--gold);
+      margin: 2rem auto;
+    }
+
+    .footer-bottom {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.2);
+    }
+
+    .footer-bottom span { color: rgba(240,180,41,0.4); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── SECTION BG ACCENTS ── */
+    .section-accent {
+      width: 100%;
+      max-width: 100%;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .section-accent::after {
+      content: attr(data-text);
+      position: absolute;
+      right: -2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 12rem;
+      color: rgba(240,180,41,0.025);
+      letter-spacing: -0.02em;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+
+      .historia-grid,
+      .staff-cards,
+      .club-card,
+      .snp-grid { grid-template-columns: 1fr; }
+
+      .sponsors-grid { grid-template-columns: repeat(2, 1fr); }
+
+      .hero-stats { gap: 2rem; }
+
+      .trophy-banner { padding: 1.5rem; }
+
+      section { padding: 4rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#hero" class="nav-logo">
+      <div class="nav-logo-placeholder">W</div>
+      <span class="nav-wordmark">WOLVES <span>PÁDEL</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#historia">Historia</a></li>
+      <li><a href="#logros">Logros</a></li>
+      <li><a href="#equipo">Equipo</a></li>
+      <li><a href="#patrocinadores">Patrocinadores</a></li>
+      <li><a href="#club">Club</a></li>
+    </ul>
+    <a href="https://www.instagram.com/fisiovital_wolvespadel?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="nav-instagram">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+      @wolves
+    </a>
+  </nav>
+
+  <!-- HERO -->
+  <div id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-lines"></div>
+
+    <div class="hero-badge" style="position:relative;z-index:1;">
+      ★ Series Nacionales de Pádel · León ★
+    </div>
+
+    <div class="shield-placeholder" style="position:relative;z-index:1;">
+      <!-- Reemplaza este div por: <img src="escudo.png" alt="Wolves Pádel" style="..."> -->
+      WOLVES<br>PÁDEL
+    </div>
+
+    <h1 class="hero-title" style="position:relative;z-index:1;">
+      WOLVES
+      <span>PÁDEL</span>
+    </h1>
+
+    <p class="hero-subtitle" style="position:relative;z-index:1;">
+      Club de Pádel · Ponferrada, León · Fundado 2024
+    </p>
+
+    <div class="hero-stats" style="position:relative;z-index:1;">
+      <div class="hero-stat">
+        <div class="hero-stat-num">2024</div>
+        <div class="hero-stat-label">Fundación</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">17</div>
+        <div class="hero-stat-label">Jugadores</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">1°</div>
+        <div class="hero-stat-label">Campeones Future</div>
+      </div>
+    </div>
+
+    <a href="https://www.instagram.com/fisiovital_wolvespadel?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="instagram-btn" style="position:relative;z-index:1;margin-top:2rem;animation: fadeUp 1s ease 0.6s both;">
+      <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+      Síguenos en Instagram
+    </a>
+
+
+  </div>
+
+  <!-- HISTORIA -->
+  <section id="historia" class="reveal section-accent" data-text="HISTORIA">
+    <div class="section-label">Nuestros Orígenes</div>
+    <h2 class="section-title">La Historia<br>del Club</h2>
+    <div class="section-divider"></div>
+
+    <div class="historia-grid">
+      <div class="historia-text">
+        <p>
+          Wolves Pádel nació en <strong>2024</strong> con una idea clara: crear un club de pádel serio, competitivo y con identidad propia en tierras leonesas. Desde el primer día, el espíritu del lobo —la manada, el esfuerzo colectivo— ha definido cada paso del equipo.
+        </p>
+        <p>
+          El club se incorporó a las <strong>Series Nacionales de Pádel (SNP)</strong>, la competición federada por equipos más importante de España, comenzando desde la base: la categoría <strong>Future 4</strong>. El camino no sería fácil, pero los Wolves no conocen otra forma de competir que al máximo.
+        </p>
+        <p>
+          En apenas dos temporadas, el club ha trazado una trayectoria de ascenso imparable, ganándose el respeto del pádel leonés y convirtiéndose en uno de los clubes más prometedores de la región.
+        </p>
+      </div>
+
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-year">2024</div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h3>Fundación del Club</h3>
+            <p>Wolves Pádel nace en Ponferrada y debuta en la SNP en la categoría Future 4.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2025</div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h3>Primer Ascenso</h3>
+            <p>Tras una gran temporada, el club asciende a Future 2 y comienza a consolidarse en la liga.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">25–26</div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h3>Campeones de Future</h3>
+            <p>Primeros en la fase regular de Future 2. Victoria en los playoffs de la región de León tras 4 encuentros. ¡Campeones!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SNP -->
+  <section id="snp" class="reveal">
+    <div class="section-label">La Competición</div>
+    <h2 class="section-title">Las Series<br>Nacionales de Pádel</h2>
+    <div class="section-divider"></div>
+
+    <div class="snp-grid">
+      <div class="snp-text">
+        <p>
+          Las <strong>Series Nacionales de Pádel (SNP)</strong> son la competición federada por equipos más extendida de España. Organizadas a nivel provincial y regional, permiten a clubes de todos los niveles competir en un formato por equipos que fomenta la camaradería y el juego colectivo.
+        </p>
+        <p>
+          La estructura de categorías va desde los niveles de iniciación hasta la élite, pasando por cuatro grandes divisiones: <strong>Future, 500, 1000 y Grand Slam</strong>. Dentro de cada división, existen subcategorías numeradas que permiten una clasificación precisa según el nivel de juego.
+        </p>
+        <p>
+          Wolves comenzó en <strong>Future 4</strong> y, en la temporada 2025-26, ha conquistado la categoría Future de la región de León, escribiendo el primer gran capítulo de su historia.
+        </p>
+      </div>
+
+      <div class="snp-pyramid">
+        <div class="snp-tier">
+          <div class="snp-tier-icon">👑</div>
+          <div class="snp-tier-name">Grand Slam</div>
+          <div class="snp-tier-sub">Élite nacional</div>
+        </div>
+        <div class="snp-tier">
+          <div class="snp-tier-icon">⭐</div>
+          <div class="snp-tier-name">1000</div>
+          <div class="snp-tier-sub">Niveles 1 – 4</div>
+        </div>
+        <div class="snp-tier">
+          <div class="snp-tier-icon">🎯</div>
+          <div class="snp-tier-name">500</div>
+          <div class="snp-tier-sub">Niveles 1 – 5</div>
+        </div>
+        <div class="snp-tier active">
+          <div class="snp-tier-icon">🐺</div>
+          <div class="snp-tier-name">Future</div>
+          <div class="snp-tier-sub">Niveles 1 – 4</div>
+          <span class="snp-wolves-tag">🏆 Wolves · Campeones</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LOGROS / CAROUSEL -->
+  <div id="logros" style="background: linear-gradient(to bottom, var(--black), #0f0f0f, var(--black)); padding: 7rem 0;">
+    <div style="max-width:1200px; margin:0 auto; padding:0 2rem;" class="reveal">
+      <div class="section-label">Temporada 2025–2026</div>
+      <h2 class="section-title">Campeones<br>de Future</h2>
+      <div class="section-divider"></div>
+
+      <div class="trophy-banner">
+        <h3>🏆 CAMPEONES DE FUTURE · REGIÓN DE LEÓN</h3>
+        <p>Series Nacionales de Pádel · Temporada 2025–2026 · 4 victorias en playoffs</p>
+      </div>
+
+      <!-- CAROUSEL -->
+      <div class="carousel-wrapper">
+        <div class="carousel-track" id="carouselTrack">
+
+          <!-- Slide 1 -->
+          <div class="carousel-slide">
+            <!-- Reemplaza este bloque por: <img src="foto-playoff-1.jpg" alt="Playoffs SNP"> -->
+            <div class="carousel-placeholder">
+              <div class="icon">📸</div>
+              <p>Foto Playoffs — Imagen 1</p>
+              <p style="font-size:0.7rem;opacity:0.5;margin-top:0.3rem;">Reemplazar con foto real</p>
+            </div>
+            <div class="carousel-caption">Campeones de Future · Playoffs SNP León 2025–26</div>
+          </div>
+
+          <!-- Slide 2 -->
+          <div class="carousel-slide">
+            <div class="carousel-placeholder">
+              <div class="icon">📸</div>
+              <p>Foto Playoffs — Imagen 2</p>
+              <p style="font-size:0.7rem;opacity:0.5;margin-top:0.3rem;">Reemplazar con foto real</p>
+            </div>
+            <div class="carousel-caption">El equipo Wolves celebra la victoria en los playoffs</div>
+          </div>
+
+          <!-- Slide 3 -->
+          <div class="carousel-slide">
+            <div class="carousel-placeholder">
+              <div class="icon">📸</div>
+              <p>Foto Playoffs — Imagen 3</p>
+              <p style="font-size:0.7rem;opacity:0.5;margin-top:0.3rem;">Reemplazar con foto real</p>
+            </div>
+            <div class="carousel-caption">La manada, unidos por el pádel y por León</div>
+          </div>
+
+          <!-- Slide 4 -->
+          <div class="carousel-slide">
+            <div class="carousel-placeholder">
+              <div class="icon">📸</div>
+              <p>Foto Playoffs — Imagen 4</p>
+              <p style="font-size:0.7rem;opacity:0.5;margin-top:0.3rem;">Reemplazar con foto real</p>
+            </div>
+            <div class="carousel-caption">Wolves, campeones de la región de León en la SNP</div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="carousel-controls">
+        <div class="carousel-dots" id="carouselDots">
+          <div class="carousel-dot active" onclick="goToSlide(0)"></div>
+          <div class="carousel-dot" onclick="goToSlide(1)"></div>
+          <div class="carousel-dot" onclick="goToSlide(2)"></div>
+          <div class="carousel-dot" onclick="goToSlide(3)"></div>
+        </div>
+        <div class="carousel-btns">
+          <button class="carousel-btn" onclick="prevSlide()">&#8592;</button>
+          <button class="carousel-btn" onclick="nextSlide()">&#8594;</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- EQUIPO -->
+  <section id="equipo" class="reveal section-accent" data-text="EQUIPO">
+    <div class="section-label">La Manada</div>
+    <h2 class="section-title">Nuestro<br>Equipo</h2>
+    <div class="section-divider"></div>
+
+    <div class="staff-cards">
+      <div class="staff-card">
+        <!-- Reemplaza el placeholder por: <img src="foto-adrian.jpg" class="staff-photo" alt="Adrián"> -->
+        <div class="staff-photo-placeholder">A</div>
+        <div class="staff-info">
+          <h3>Adrián Fernández Rodríguez</h3>
+          <div class="staff-role">⚡ Capitán del Equipo</div>
+        </div>
+      </div>
+      <div class="staff-card">
+        <!-- Reemplaza el placeholder por: <img src="foto-hector.jpg" class="staff-photo" alt="Héctor"> -->
+        <div class="staff-photo-placeholder">H</div>
+        <div class="staff-info">
+          <h3>Héctor Martín González</h3>
+          <div class="staff-role">🐺 Presidente del Club</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="players-grid">
+      <div class="player-card"><span class="player-num">01</span><span class="player-name">Víctor García López</span></div>
+      <div class="player-card"><span class="player-num">02</span><span class="player-name">Adrián Fernández Rodríguez</span></div>
+      <div class="player-card"><span class="player-num">03</span><span class="player-name">Sergio Puerto Abella</span></div>
+      <div class="player-card"><span class="player-num">04</span><span class="player-name">Carlos Prieto Vega</span></div>
+      <div class="player-card"><span class="player-num">05</span><span class="player-name">Héctor Martín González</span></div>
+      <div class="player-card"><span class="player-num">06</span><span class="player-name">Luis Valliñas Santos</span></div>
+      <div class="player-card"><span class="player-num">07</span><span class="player-name">David Rodríguez López</span></div>
+      <div class="player-card"><span class="player-num">08</span><span class="player-name">Pablo Rodríguez Arias</span></div>
+      <div class="player-card"><span class="player-num">09</span><span class="player-name">Hugo Espigares</span></div>
+      <div class="player-card"><span class="player-num">10</span><span class="player-name">Pablo López</span></div>
+      <div class="player-card"><span class="player-num">11</span><span class="player-name">Jorge Amez Fernández</span></div>
+      <div class="player-card"><span class="player-num">12</span><span class="player-name">Pablo Muñiz Orallo</span></div>
+      <div class="player-card"><span class="player-num">13</span><span class="player-name">Marcos Álvarez Voces</span></div>
+      <div class="player-card"><span class="player-num">14</span><span class="player-name">Jorge Ramírez García</span></div>
+      <div class="player-card"><span class="player-num">15</span><span class="player-name">Jorge Gómez Diz</span></div>
+      <div class="player-card"><span class="player-num">16</span><span class="player-name">Eduardo Castro González</span></div>
+      <div class="player-card"><span class="player-num">17</span><span class="player-name">Iván Guerra López</span></div>
+    </div>
+  </section>
+
+  <!-- PATROCINADORES -->
+  <section id="patrocinadores" class="reveal">
+    <div class="section-label">Nuestros Apoyos</div>
+    <h2 class="section-title">Patrocinadores</h2>
+    <div class="section-divider"></div>
+
+    <!-- Patrocinador principal -->
+    <div class="sponsor-main">
+      <!-- Reemplaza el placeholder por: <div class="sponsor-main-logo"><img src="fisiovital-logo.png" alt="Fisiovital"></div> -->
+      <div class="sponsor-main-logo-placeholder">FISIOVITAL</div>
+      <h3>Fisiovital</h3>
+      <p>Fisioterapia · Since 2009 · Patrocinador Principal</p>
+    </div>
+
+    <!-- Resto de patrocinadores -->
+    <div class="sponsors-grid">
+      <div class="sponsor-card">
+        <!-- <img src="mav-logo.png" class="sponsor-card-logo" alt="MAV"> -->
+        <div class="sponsor-card-logo-placeholder">MAV</div>
+        <p>Suministros y Repuestos</p>
+      </div>
+      <div class="sponsor-card">
+        <div class="sponsor-card-logo-placeholder">VISIOLUXE</div>
+        <p>Soluciones Audiovisuales</p>
+      </div>
+      <div class="sponsor-card">
+        <div class="sponsor-card-logo-placeholder">DAHUMA</div>
+        <p>Cocinas</p>
+      </div>
+      <div class="sponsor-card">
+        <div class="sponsor-card-logo-placeholder">REFORMAS<br>ALEJANDRO S.F.</div>
+        <p>Reformas y Construcción</p>
+      </div>
+      <div class="sponsor-card">
+        <div class="sponsor-card-logo-placeholder">LA ALQUITARA</div>
+        <p>Gourmet</p>
+      </div>
+      <div class="sponsor-card">
+        <div class="sponsor-card-logo-placeholder">MULTISERVICIOS<br>QUEREÑO SL</div>
+        <p>Seguros · Juanma y Luna</p>
+      </div>
+      <div class="sponsor-card">
+        <div class="sponsor-card-logo-placeholder">FARMACIA<br>CRESPO Y RODRÍGUEZ</div>
+        <p>Farmacia</p>
+      </div>
+      <div class="sponsor-card">
+        <div class="sponsor-card-logo-placeholder">BAR FELIZ</div>
+        <p>Bien y ná más...</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLUB ASOCIADO -->
+  <section id="club" class="reveal">
+    <div class="section-label">Donde Entrenamos</div>
+    <h2 class="section-title">Club Asociado</h2>
+    <div class="section-divider"></div>
+
+    <div class="club-card">
+      <div class="club-info">
+        <h3>Pádel Indoor<br><span>Ponferrada 3.0</span></h3>
+        <p>
+          Wolves Pádel tiene su sede en Pádel Indoor Ponferrada 3.0, el club asociado donde la manada entrena, compite y vive el pádel. Unas instalaciones de primer nivel en el corazón del Bierzo leonés.
+        </p>
+
+        <div class="club-address">
+          <div class="club-address-icon">📍</div>
+          <p>Polígono Sector S1, 3<br>24416 · Ponferrada, León</p>
+        </div>
+
+        <a href="https://maps.app.goo.gl/BBuqXKa1vfSwTUbN6" target="_blank" class="club-map-btn">
+          ↗ Ver en Google Maps
+        </a>
+
+        <a href="https://www.instagram.com/padel_indoorponferrada3.0?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="instagram-btn">
+          <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+          Instagram Pádel Indoor 3.0
+        </a>
+      </div>
+
+      <div class="club-map">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2970!2d-6.58!3d42.55!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDLCsDMzJzAwLjAiTiA2wrAzNCc0OC4wIlc!5e0!3m2!1ses!2ses!4v1"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- FLOATING HYMN PLAYER -->
+  <div class="hymn-player" id="hymnPlayer">
+    <div class="hymn-header" onclick="toggleHymn()">
+      <div class="hymn-header-left">
+        <span class="hymn-note">♪</span>
+        <div>
+          <div class="hymn-header-title">Himno Wolves</div>
+          <div class="hymn-header-sub">Wolves Pádel · León</div>
+        </div>
+      </div>
+      <button class="hymn-toggle" id="hymnToggle">▼</button>
+    </div>
+    <div class="hymn-body" id="hymnBody">
+      <div class="hymn-controls">
+        <button class="play-btn" id="playBtn" onclick="togglePlay(event)">
+          <svg id="playIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+        <div class="hymn-info">
+          <div class="hymn-track-name">Himno Oficial del Club</div>
+          <div class="progress-bar" id="progressBar" onclick="seekAudio(event)">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+          <div class="hymn-time" id="playerTime">0:00 / 0:00</div>
+        </div>
+      </div>
+      <!-- Reemplaza "himno.mpeg" con la ruta correcta a tu archivo de audio -->
+      <audio id="audioPlayer" src="himno.mpeg"></audio>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">WOLVES <span>PÁDEL</span></div>
+    <div class="footer-tagline">La Manada · Ponferrada, León · SNP</div>
+
+    <div class="footer-socials">
+      <a href="https://www.instagram.com/fisiovital_wolvespadel?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="footer-social-link">
+        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        @fisiovital_wolvespadel
+      </a>
+      <a href="https://www.instagram.com/padel_indoorponferrada3.0?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="footer-social-link">
+        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        @padel_indoorponferrada3.0
+      </a>
+    </div>
+    <div class="footer-divider"></div>
+    <div class="footer-bottom">
+      © 2024–2026 Wolves Pádel Club · Todos los derechos reservados ·
+      <span>Campeones de Future · León</span>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script>
+    // ── SCROLL REVEAL ──
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => observer.observe(el));
+
+    // ── CAROUSEL ──
+    let currentSlide = 0;
+    const totalSlides = 4;
+    const track = document.getElementById('carouselTrack');
+    const dots = document.querySelectorAll('.carousel-dot');
+    let autoplayTimer;
+
+    function goToSlide(n) {
+      currentSlide = (n + totalSlides) % totalSlides;
+      track.style.transform = `translateX(-${currentSlide * 100}%)`;
+      dots.forEach((d, i) => d.classList.toggle('active', i === currentSlide));
+    }
+
+    function nextSlide() { goToSlide(currentSlide + 1); resetAutoplay(); }
+    function prevSlide() { goToSlide(currentSlide - 1); resetAutoplay(); }
+
+    function resetAutoplay() {
+      clearInterval(autoplayTimer);
+      autoplayTimer = setInterval(() => goToSlide(currentSlide + 1), 5000);
+    }
+
+    resetAutoplay();
+
+    // ── FLOATING HYMN PLAYER ──
+    const audio = document.getElementById('audioPlayer');
+    const playBtn = document.getElementById('playBtn');
+    const playIcon = document.getElementById('playIcon');
+    const progressFill = document.getElementById('progressFill');
+    const playerTime = document.getElementById('playerTime');
+
+    const pauseSVG = `<rect x="6" y="4" width="4" height="16" class="pause-icon"/><rect x="14" y="4" width="4" height="16" class="pause-icon"/>`;
+    const playSVG  = `<path d="M8 5v14l11-7z"/>`;
+
+    function togglePlay(e) {
+      if (e) e.stopPropagation();
+      if (audio.paused) {
+        audio.play();
+        playIcon.innerHTML = pauseSVG;
+      } else {
+        audio.pause();
+        playIcon.innerHTML = playSVG;
+      }
+    }
+
+    function toggleHymn() {
+      const player = document.getElementById('hymnPlayer');
+      player.classList.toggle('minimized');
+    }
+
+    function formatTime(s) {
+      const m = Math.floor(s / 60);
+      const sec = Math.floor(s % 60);
+      return `${m}:${sec.toString().padStart(2, '0')}`;
+    }
+
+    audio.addEventListener('timeupdate', () => {
+      if (audio.duration) {
+        progressFill.style.width = (audio.currentTime / audio.duration * 100) + '%';
+        playerTime.textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
+      }
+    });
+
+    audio.addEventListener('ended', () => {
+      playIcon.innerHTML = playSVG;
+      progressFill.style.width = '0%';
+    });
+
+    function seekAudio(e) {
+      e.stopPropagation();
+      const bar = document.getElementById('progressBar');
+      const ratio = e.offsetX / bar.offsetWidth;
+      audio.currentTime = ratio * audio.duration;
+    }
+
+    // ── NAV ACTIVE ──
+    const navLinks = document.querySelectorAll('.nav-links a');
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY + 100;
+      document.querySelectorAll('section, #logros').forEach(sec => {
+        if (sec.offsetTop <= y && sec.offsetTop + sec.offsetHeight > y) {
+          navLinks.forEach(a => {
+            a.style.color = a.getAttribute('href') === `#${sec.id}`
+              ? 'var(--gold)'
+              : 'rgba(245,245,240,0.7)';
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
