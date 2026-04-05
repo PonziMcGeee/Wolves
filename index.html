@@ -1588,7 +1588,18 @@
 
 
   <!-- EQUIPO -->
-  <section id="equipo" class="reveal section-accent" data-text="EQUIPO">
+  <section id="equipo" class="reveal section-accent" data-text="EQUIPO" style="position:relative; max-width:100%; padding:0;">
+    <div style="
+      position: absolute;
+      inset: 0;
+      background-image: url('foto-equipo.png');
+      background-size: cover;
+      background-position: center top;
+      background-attachment: fixed;
+      filter: brightness(0.25);
+      z-index: 0;
+    "></div>
+    <div style="position:relative; z-index:1; max-width:1200px; margin:0 auto; padding: 7rem 2rem;">
     <div class="section-label">La Manada</div>
     <h2 class="section-title">Nuestro<br>Equipo</h2>
     <div class="section-divider"></div>
@@ -1635,6 +1646,7 @@
       <div class="player-card"><span class="player-num">15</span><span class="player-name">Jorge Gómez Diz</span></div>
       <div class="player-card"><span class="player-num">16</span><span class="player-name">Eduardo Castro González</span></div>
       <div class="player-card"><span class="player-num">17</span><span class="player-name">Iván Guerra López</span></div>
+    </div>
     </div>
   </section>
 
