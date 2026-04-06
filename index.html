@@ -1017,7 +1017,7 @@
     }
 
     .sponsor-card {
-      background: var(--black-soft);
+      background: #F0EFE8;
       padding: 2rem 1.5rem;
       display: flex;
       flex-direction: column;
@@ -1029,17 +1029,25 @@
       min-height: 140px;
     }
 
-    .sponsor-card:hover { background: var(--gray); }
+    .sponsor-card:hover { background: #FFFFFF; }
 
     .sponsor-card-logo {
       width: 120px;
       height: 80px;
       object-fit: contain;
-      opacity: 0.85;
+      opacity: 0.9;
       transition: opacity 0.2s;
     }
 
     .sponsor-card:hover .sponsor-card-logo { opacity: 1; }
+
+    .sponsor-card p {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #333;
+    }
 
     .sponsor-card-logo-placeholder {
       width: 80px;
