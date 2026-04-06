@@ -1567,6 +1567,12 @@
             <div class="carousel-caption">Wolves, campeones de la región de León en la SNP</div>
           </div>
 
+          <!-- Slide 5 -->
+          <div class="carousel-slide">
+            <img src="foto-playoff-5.jpg" alt="Adrián capitán campeón">
+            <div class="carousel-caption">El capitán celebrando la victoria 🏅</div>
+          </div>
+
         </div>
       </div>
 
@@ -1576,6 +1582,7 @@
           <div class="carousel-dot" onclick="goToSlide(1)"></div>
           <div class="carousel-dot" onclick="goToSlide(2)"></div>
           <div class="carousel-dot" onclick="goToSlide(3)"></div>
+          <div class="carousel-dot" onclick="goToSlide(4)"></div>
         </div>
         <div class="carousel-btns">
           <button class="carousel-btn" onclick="prevSlide()">&#8592;</button>
@@ -1609,7 +1616,7 @@
         <img src="foto-adrian.jpg" class="staff-photo" alt="Adrián Fernández">
         <div class="staff-info">
           <h3>Adrián Fernández Rodríguez</h3>
-          <div class="staff-role">⚡ Capitán del Equipo</div>
+          <div class="staff-role">⚡ Capitán del Club</div>
         </div>
       </div>
       <div class="staff-card">
@@ -1631,7 +1638,6 @@
     <div class="players-grid">
       <div class="player-card"><span class="player-num">01</span><span class="player-name">Víctor García López</span></div>
       <div class="player-card"><span class="player-num">02</span><span class="player-name">Adrián Fernández Rodríguez</span></div>
-      <div class="player-card"><span class="player-num">03</span><span class="player-name">Sergio Puerto Abella</span></div>
       <div class="player-card"><span class="player-num">04</span><span class="player-name">Carlos Prieto Vega</span></div>
       <div class="player-card"><span class="player-num">05</span><span class="player-name">Héctor Martín González</span></div>
       <div class="player-card"><span class="player-num">06</span><span class="player-name">Luis Valliñas Santos</span></div>
@@ -1809,7 +1815,7 @@
 
     // ── CAROUSEL ──
     let currentSlide = 0;
-    const totalSlides = 4;
+    const totalSlides = 5;
     const track = document.getElementById('carouselTrack');
     const dots = document.querySelectorAll('.carousel-dot');
     let autoplayTimer;
